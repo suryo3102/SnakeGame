@@ -18,25 +18,28 @@ FOOD_COLOR = '#FF4D8D'
 GRID_COLOR = '#1B3A57'
 SCORE_COLOR = '#FFFFFF'
 
+grid_pen = Turtle(visible=False)
 score_pen = Turtle(visible=False)
+grid_pen.penup()
+grid_pen.speed(0)
 score_pen.penup()
 score_pen.color(SCORE_COLOR)
 score_pen.speed(0)
 
 def draw_grid():
     "Draw a subtle grid pattern in the background."
-    penup()
-    pencolor(GRID_COLOR)
+    grid_pen.clear()
+    grid_pen.pencolor(GRID_COLOR)
     for x in range(-BOARD_LIMIT, BOARD_LIMIT + 1, STEP_SIZE):
-        goto(x, -BOARD_LIMIT)
-        pendown()
-        goto(x, BOARD_LIMIT)
-        penup()
+        grid_pen.goto(x, -BOARD_LIMIT)
+        grid_pen.pendown()
+        grid_pen.goto(x, BOARD_LIMIT)
+        grid_pen.penup()
     for y in range(-BOARD_LIMIT, BOARD_LIMIT + 1, STEP_SIZE):
-        goto(-BOARD_LIMIT, y)
-        pendown()
-        goto(BOARD_LIMIT, y)
-        penup()
+        grid_pen.goto(-BOARD_LIMIT, y)
+        grid_pen.pendown()
+        grid_pen.goto(BOARD_LIMIT, y)
+        grid_pen.penup()
 
 def change(x, y):
     "Change snake direction."
@@ -47,7 +50,7 @@ def change(x, y):
 
 def inside(head):
     "Return True if head inside boundaries."
-    return -BOARD_LIMIT < head.x < BOARD_LIMIT - STEP_SIZE and -BOARD_LIMIT < head.y < BOARD_LIMIT - STEP_SIZE
+    return -BOARD_LIMIT < head.x < BOARD_LIMIT and -BOARD_LIMIT < head.y < BOARD_LIMIT
 
 def move():
     "Move snake forward one segment."
@@ -69,9 +72,6 @@ def move():
         snake.pop(0)
 
     clear()
-
-    bgcolor(BG_COLOR)
-    draw_grid()
 
     for i, body in enumerate(snake):
         square(body.x, body.y, CELL_SIZE, SNAKE_COLOR)
@@ -97,6 +97,9 @@ setup(720, 720, 240, 0)
 hideturtle()
 tracer(False)
 listen()
+
+bgcolor(BG_COLOR)
+draw_grid()
 
 
 title("Snakemania")
